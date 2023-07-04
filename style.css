@@ -1,0 +1,15 @@
+body {
+  background-color: white;
+  color: black;
+  font-family: "system-ui";
+  white-space: wrap;
+  /*text-transform: uppercase;*/
+  font-size: 2em;
+}
+span {
+  margin: -0.5px;
+}
+
+p {
+  margin: 0;
+}
