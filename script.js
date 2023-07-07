@@ -116,7 +116,7 @@ let width = textArr[height-1].length;
 let parsed = null;
 
 const FONTS = [
-  'font-1',
+  //'font-1',
   'font-2',
   'font-3',
   'font-4',
@@ -143,7 +143,7 @@ function render() {
   console.log(1);
   parsed.shift();
   console.log(2);
-  parsed = parsed.slice(1, 1000);
+  parsed = parsed.slice(1, 2000);
   console.log(3);
   let prevDate = null;
   let prevBook = null;
@@ -233,7 +233,7 @@ function hasContent(node) {
   return (node && node.textContent != ' ' && node.tagName == "SPAN" && !node.classList.contains("hide")) ? node : null;
 }
 
-const INTERVAL = 20;
+const INTERVAL = 10;
 
 function moveSnake2() {
   let sx = getRandomInt(window.innerWidth);
@@ -266,19 +266,19 @@ function moveSnake2() {
       // else try to go top
       else {
         //console.log("up or down");
-        let up = document.elementFromPoint(rect.x - rect.width/2, rect.y - rect.height/2);
-        let down = document.elementFromPoint(rect.x + rect.width, rect.y + rect.height);
+        let up = document.elementFromPoint(rect.x, rect.y - rect.height/2);
+        let down = document.elementFromPoint(rect.x, rect.y + rect.height*1.5);
         
         if (Math.random() > 0.5) {
           if (hasContent(up)) {
-            sx = rect.x - rect.width/2;
+            sx = rect.x;
             sy = rect.y - rect.height/2;
             //_moveSnake();
             //console.log("up");
             setTimeout(_moveSnake, INTERVAL);
           } else if (hasContent(down)) {
-            sx = rect.x + rect.width;
-            sy = rect.y + rect.height;
+            sx = rect.x;
+            sy = rect.y + rect.height*1.5;
             //_moveSnake();
             //console.log("down");
             setTimeout(_moveSnake, INTERVAL);
@@ -288,17 +288,18 @@ function moveSnake2() {
             setTimeout(moveSnake2, INTERVAL*2);
           }
         } else {
+          console.log("down first");
           if (hasContent(down)) {
-            sx = rect.x + rect.width;
-            sy = rect.y + rect.height;
+            sx = rect.x;
+            sy = rect.y + rect.height*1.5;
             //_moveSnake();
-            //console.log("down");
+            console.log("down");
             setTimeout(_moveSnake, INTERVAL);
           } else if (hasContent(up)) {
-            sx = rect.x - rect.width/2;
+            sx = rect.x;
             sy = rect.y - rect.height/2;
             //_moveSnake();
-            //console.log("up");
+            console.log("up");
             setTimeout(_moveSnake, INTERVAL);
           } else {
             // else we are dead
