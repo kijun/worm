@@ -18,6 +18,10 @@ body {
   margin-bottom: 50px;
 }
 
+#data {
+  display: none;
+}
+
 span {
   margin-left: -0.5px;
 }
