@@ -108,18 +108,33 @@ let textArr = text.split('\n');
 console.log(textArr);
 let height = textArr.length;
 let width = textArr[height-1].length;
+
+const FONTS = [
+  'font-1',
+  'font-2',
+  'font-3',
+  'font-4',
+  'font-5',
+  'font-6',
+  'font-7',
+  'font-8'] 
+
 function render() {
   let board = document.getElementById("game-board");
   board.innerHTML = "";
   for (let x of textArr) {
     
+    let cls = FONTS[Math.floor(Math.random() * FONTS.length)];
+
     for (let c of x) {
       const para = document.createElement("span");
+      para.classList.add(cls);
       const node = document.createTextNode(c);
       para.appendChild(node);
       board.appendChild(para);
     }
     const para = document.createElement("span");
+    para.classList.add(cls);
     const node = document.createTextNode(" ");
     para.appendChild(node);
     board.appendChild(para);
@@ -170,7 +185,7 @@ console.log(y);
 // for every snake
 
 function hasContent(node) {
-  return (node && node.textContent != ' ' && node.tagName == "SPAN" && node.style.backgroundColor != "black") ? node : null;
+  return (node && node.textContent != ' ' && node.tagName == "SPAN" && !node.classList.contains("hide")) ? node : null;
 }
 
 const INTERVAL = 20;
@@ -182,7 +197,8 @@ function moveSnake2() {
   function _moveSnake() {
     let a = document.elementFromPoint(sx, sy)
     if (hasContent(a)) {
-      a.style.backgroundColor = "black";
+      //a.style.backgroundColor = "black";
+      a.classList.add("hide");
       let right = a.nextSibling;
       let left = a.previousSibling;
       let rect = a.getBoundingClientRect();

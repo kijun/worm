@@ -1,13 +1,61 @@
 body {
   background-color: white;
-  color: black;
+  color: #333333;
   font-family: "system-ui";
   white-space: wrap;
   /*text-transform: uppercase;*/
   font-size: 2em;
 }
+
+.hide {
+  background-color: #333333;
+}
+
+#game-board {
+  width: 60%;
+  margin: auto;
+}
+
 span {
   margin: -0.5px;
+}
+
+.date {
+  font-weight: 600;
+}
+
+.font-1 {
+  font-family: 'Amazon Ember', sans-serif;
+}
+
+.font-2 {
+  font-family: 'Baskerville', sans-serif;
+}
+
+.font-3 {
+  font-family: 'Baskerville', sans-serif;
+}
+
+.font-4 {
+  font-family: 'Georgia', sans-serif;
+}
+
+.font-5 {
+  font-family: 'Helvetica', sans-serif;
+}
+
+.font-6 {
+  font-family: 'Helvetica Neue', sans-serif;
+  font-weight: 200;
+}
+
+.font-7 {
+  font-family: 'Lucinda', sans-serif;
+}
+
+.font-8 {
+  font-family: 'Palatino LT', sans-serif;
+  /*font-family: 'Palatino LT Light', sans-serif;*/
 }
 
 p {
