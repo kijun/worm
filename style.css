@@ -12,12 +12,14 @@ body {
 }
 
 #game-board {
-  width: 60%;
+  width: 70%;
   margin: auto;
+  margin-top: 50px;
+  margin-bottom: 50px;
 }
 
 span {
-  margin: -0.5px;
+  margin-left: -0.5px;
 }
 
 .date {
