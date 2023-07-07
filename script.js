@@ -105,18 +105,15 @@ Consider the Himalayan musk deer. The male is born with a gland that, when matur
 Every morning I sit down to meditate on the divine sound of my mantra. Anyone who meditates knows what comes next: my mind races through whatever I struggled with yesterday (or will grapple with today) or, if not my problems, then the problems of my loved ones, or it chews on an old argument, or gets lost in memory (the joy of the first Chevrolet I ever owned, or the shame of striking out and losing the championship game for my Little League baseball team, for example). If someone is baking in the next room, I can switch in an instant from meditation on my mantra to meditation on cookies. At some point, Ill become aware of the wandering mind and ask myself, What happened to the mantra?`
 let textArr = text.split('\n');
 
-const csv = document.getElementById("data").textContent;
+
 
 function parse(t,n,i=e=>e){let e=Object.create(null);e.options=n||{},e.reviver=i,e.value="",e.entry=[],e.output=[],e.col=1,e.row=1;let l=/"|,|\r\n|\n|\r|[^",\r\n]+/y,a=/^(\r\n|\n|\r)$/,u=[],o="",r=0;for(;(u=l.exec(t))!==null;)switch(o=u[0],r){case 0:switch(!0){case o==='"':r=3;break;case o===",":r=0,s(e);break;case a.test(o):r=0,s(e),c(e);break;default:e.value+=o,r=2;break}break;case 2:switch(!0){case o===",":r=0,s(e);break;case a.test(o):r=0,s(e),c(e);break;default:throw r=4,Error(`CSVError: Illegal state [row:${e.row}, col:${e.col}]`)}break;case 3:switch(!0){case o==='"':r=4;break;default:r=3,e.value+=o;break}break;case 4:switch(!0){case o==='"':r=3,e.value+=o;break;case o===",":r=0,s(e);break;case a.test(o):r=0,s(e),c(e);break;default:throw Error(`CSVError: Illegal state [row:${e.row}, col:${e.col}]`)}break}return e.entry.length!==0&&(s(e),c(e)),e.output}function w(t,n={},i=e=>e){let e=Object.create(null);e.options=n,e.options.eof=e.options.eof!==void 0?e.options.eof:!0,e.row=1,e.col=1,e.output="";let l=/"|,|\r\n|\n|\r/;return t.forEach((a,u)=>{let o="";switch(e.col=1,a.forEach((r,f)=>{typeof r=="string"&&(r=r.replace(/"/g,'""'),r=l.test(r)?`"${r}"`:r),o+=i(r,e.row,e.col),f!==a.length-1&&(o+=","),e.col++}),!0){case e.options.eof:case(!e.options.eof&&u!==t.length-1):e.output+=`${o}
 `;break;default:e.output+=`${o}`;break}e.row++}),e.output}function s(t){let n=t.options.typed?p(t.value):t.value;t.entry.push(t.reviver(n,t.row,t.col)),t.value="",t.col++}function c(t){t.output.push(t.entry),t.entry=[],t.row++,t.col=1}function p(t){let n=/.\./;switch(!0){case t==="true":case t==="false":return t==="true";case n.test(t):return parseFloat(t);case isFinite(t):return parseInt(t);default:return t}}
 
-const parsed = parse(csv);
 
-console.log(parsed);
-
-console.log(textArr);
 let height = textArr.length;
 let width = textArr[height-1].length;
+let parsed = null;
 
 const FONTS = [
   'font-1',
@@ -128,28 +125,67 @@ const FONTS = [
   'font-7',
   'font-8'] 
 
+
+const DATEFONT = "date";
+
+function randomFont(currFont) {
+  let cls = currFont;
+  while (cls == currFont) {
+    cls = FONTS[Math.floor(Math.random() * FONTS.length)];
+  }
+  return cls;
+}
+
 function render() {
+  console.log ('rendering');
   let board = document.getElementById("game-board");
   board.innerHTML = "";
-  for (let x of textArr) {
-    
-    let cls = FONTS[Math.floor(Math.random() * FONTS.length)];
+  console.log(1);
+  parsed.shift();
+  console.log(2);
+  parsed = parsed.slice(1, 1000);
+  console.log(3);
+  let prevDate = null;
+  let prevBook = null;
+  let currFont = randomFont(null);
+  let dateFont = DATEFONT;
+  //console.log(parsed);
+  console.log(4);
+  //return;
 
-    for (let c of x) {
-      const para = document.createElement("span");
-      para.classList.add(cls);
-      const node = document.createTextNode(c);
-      para.appendChild(node);
-      board.appendChild(para);
+  function addSpan (text, style) {
+      const span = document.createElement("span");
+      span.classList.add(style);
+      const node = document.createTextNode(text);
+      span.appendChild(node);
+      board.appendChild(span);
+  }
+
+  for (let x of parsed) {
+    let currDate = x[0];
+    let currBook = x[1];
+    let currText = x[2];
+
+    if (currDate != prevDate) {
+      // new font/new date
+      //currFont = randomFont(currFont);
+      addSpan(currDate + " ", dateFont);
+      prevDate = currDate;
     }
-    const para = document.createElement("span");
-    para.classList.add(cls);
-    const node = document.createTextNode(" ");
-    para.appendChild(node);
-    board.appendChild(para);
+    
+    if (currBook != prevBook) {
+      //change font for every book
+      currFont = randomFont(currFont);
+      prevBook = currBook;
+    }
+
+    for (let c of currText) {
+      addSpan(c, currFont);
+    }
+
+    addSpan(" ", currFont)
   }
 }
-render();
 
 let x = -1;
 let y = -1;
@@ -320,6 +356,16 @@ function moveSnake(){
   }*/
 }
 
-for (let i = 0; i < 1; i++) {
-  moveSnake2();
-}
+
+fetch("https://raw.githubusercontent.com/kijun/worm/main/highlights.csv")
+  .then((res) => res.text())
+  .then((text) => {
+    // do something with "text"
+    parsed = parse(text);
+    console.log(parsed);
+    render();
+    for (let i = 0; i < 1; i++) {
+      moveSnake2();
+    }
+   })
+  .catch((e) => console.error(e));
