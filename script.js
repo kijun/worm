@@ -86,12 +86,12 @@ function moveSnake2() {
   let x = -1;
   let y = -1;
 
-  let sx = getRandomInt(window.innerWidth);
-  let sy = getRandomInt(window.innerHeight);
   let a = null; // node to paint
 
   function _moveSnake() {
     if (a == null) {
+      let sx = getRandomInt(window.innerWidth);
+      let sy = getRandomInt(window.innerHeight);
       a = document.elementFromPoint(sx, sy)
     }
     if (hasContent(a)) {
@@ -103,39 +103,29 @@ function moveSnake2() {
       // try to move right
       if (hasContent(right)) {
         //console.log("right");
-        rect = right.getBoundingClientRect();
-        sx = rect.x + rect.width/2;
-        sy = rect.y + rect.height/2;
         a = right;
         //_moveSnake();
         setTimeout(_moveSnake, INTERVAL);
       } else if (hasContent(left)) {
         //console.log("left");
-        rect = left.getBoundingClientRect();
-        sx = rect.x + rect.width/2;
-        sy = rect.y + rect.height/2;
         a = left;
         //_moveSnake();
         setTimeout(_moveSnake, INTERVAL);
       }
       // else try to go top
       else {
+        //setTimeout(moveSnake2, INTERVAL*2);
+        //return;
         //console.log("up or down");
         let up = document.elementFromPoint(rect.x, rect.y - rect.height/2);
         let down = document.elementFromPoint(rect.x, rect.y + rect.height*1.5);
         
         if (Math.random() > 0.5) {
           if (hasContent(up)) {
-            sx = rect.x;
-            sy = rect.y - rect.height/2;
-            //_moveSnake();
             //console.log("up");
             a = up;
             setTimeout(_moveSnake, INTERVAL);
           } else if (hasContent(down)) {
-            sx = rect.x;
-            sy = rect.y + rect.height*1.5;
-            //_moveSnake();
             //console.log("down");
             a = down;
             setTimeout(_moveSnake, INTERVAL);
@@ -146,14 +136,10 @@ function moveSnake2() {
           }
         } else {
           if (hasContent(down)) {
-            sx = rect.x;
-            sy = rect.y + rect.height*1.5;
             //_moveSnake();
             a = down;
             setTimeout(_moveSnake, INTERVAL);
           } else if (hasContent(up)) {
-            sx = rect.x;
-            sy = rect.y - rect.height/2;
             //_moveSnake();
             a = up;
             setTimeout(_moveSnake, INTERVAL);
@@ -166,7 +152,7 @@ function moveSnake2() {
       }
     }
     else {
-      console.log("no content");
+      //console.log("no content");
       setTimeout(moveSnake2, INTERVAL*2);
     }
   }
@@ -180,7 +166,7 @@ fetch("https://raw.githubusercontent.com/kijun/worm/main/highlights.csv")
     parsed = parse(text);
     //console.log(parsed);
     render();
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 2; i++) {
       moveSnake2();
     }
    })
