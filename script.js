@@ -80,7 +80,7 @@ function hasContent(node) {
   return (node && node.textContent != ' ' && node.tagName == "SPAN" && !node.classList.contains("hide")) ? node : null;
 }
 
-const INTERVAL = 10;
+const INTERVAL = 1;
 
 function moveSnake2() {
   let x = -1;
@@ -108,7 +108,7 @@ function moveSnake2() {
       } else if (hasContent(left)) {
         //console.log("left");
         rect = left.getBoundingClientRect();
-        sx = rect.x + rect.width/2;
+        sx = rect.x - rect.width/2;
         sy = rect.y + rect.height/2;
         //_moveSnake();
         setTimeout(_moveSnake, INTERVAL);
@@ -171,7 +171,7 @@ fetch("https://raw.githubusercontent.com/kijun/worm/main/highlights.csv")
     parsed = parse(text);
     //console.log(parsed);
     render();
-    for (let i = 0; i < 1; i++) {
+    for (let i = 0; i < 2; i++) {
       moveSnake2();
     }
    })
