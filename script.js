@@ -108,7 +108,7 @@ function moveSnake2() {
       } else if (hasContent(left)) {
         //console.log("left");
         rect = left.getBoundingClientRect();
-        sx = rect.x - rect.width/2;
+        sx = rect.x + rect.width/2;
         sy = rect.y + rect.height/2;
         //_moveSnake();
         setTimeout(_moveSnake, INTERVAL);
