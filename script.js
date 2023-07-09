@@ -88,9 +88,12 @@ function moveSnake2() {
 
   let sx = getRandomInt(window.innerWidth);
   let sy = getRandomInt(window.innerHeight);
+  let a = null; // node to paint
 
   function _moveSnake() {
-    let a = document.elementFromPoint(sx, sy)
+    if (a == null) {
+      a = document.elementFromPoint(sx, sy)
+    }
     if (hasContent(a)) {
       //a.style.backgroundColor = "black";
       a.classList.add("hide");
@@ -103,6 +106,7 @@ function moveSnake2() {
         rect = right.getBoundingClientRect();
         sx = rect.x + rect.width/2;
         sy = rect.y + rect.height/2;
+        a = right;
         //_moveSnake();
         setTimeout(_moveSnake, INTERVAL);
       } else if (hasContent(left)) {
@@ -110,6 +114,7 @@ function moveSnake2() {
         rect = left.getBoundingClientRect();
         sx = rect.x + rect.width/2;
         sy = rect.y + rect.height/2;
+        a = left;
         //_moveSnake();
         setTimeout(_moveSnake, INTERVAL);
       }
@@ -125,12 +130,14 @@ function moveSnake2() {
             sy = rect.y - rect.height/2;
             //_moveSnake();
             //console.log("up");
+            a = up;
             setTimeout(_moveSnake, INTERVAL);
           } else if (hasContent(down)) {
             sx = rect.x;
             sy = rect.y + rect.height*1.5;
             //_moveSnake();
             //console.log("down");
+            a = down;
             setTimeout(_moveSnake, INTERVAL);
           } else {
             // else we are dead
@@ -142,11 +149,13 @@ function moveSnake2() {
             sx = rect.x;
             sy = rect.y + rect.height*1.5;
             //_moveSnake();
+            a = down;
             setTimeout(_moveSnake, INTERVAL);
           } else if (hasContent(up)) {
             sx = rect.x;
             sy = rect.y - rect.height/2;
             //_moveSnake();
+            a = up;
             setTimeout(_moveSnake, INTERVAL);
           } else {
             // else we are dead
@@ -171,7 +180,7 @@ fetch("https://raw.githubusercontent.com/kijun/worm/main/highlights.csv")
     parsed = parse(text);
     //console.log(parsed);
     render();
-    for (let i = 0; i < 2; i++) {
+    for (let i = 0; i < 3; i++) {
       moveSnake2();
     }
    })
