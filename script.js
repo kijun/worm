@@ -30,7 +30,7 @@ function render() {
   let board = document.getElementById("game-board");
   board.innerHTML = "";
   parsed.shift();
-  parsed = parsed.slice(1, 2000);
+  //parsed = parsed.slice(1, 5000);
   let prevDate = null;
   let prevBook = null;
   let currFont = randomFont(null);
@@ -43,8 +43,17 @@ function render() {
       span.appendChild(node);
       board.appendChild(span);
   }
+  
+  function addNewline () {
+      const span = document.createElement("br");
+      board.appendChild(span);
+  }
 
+  let index = 0;
   for (let x of parsed) {
+    index++;
+    //if (index % 3 != 0) continue;
+    if (Math.random() < 0.7) continue;
     let currDate = x[0];
     let currBook = x[1];
     let currText = x[2];
@@ -52,6 +61,7 @@ function render() {
     if (currDate != prevDate) {
       // new font/new date
       //currFont = randomFont(currFont);
+      addNewline();
       addSpan(currDate + " ", dateFont);
       prevDate = currDate;
     }
@@ -60,13 +70,15 @@ function render() {
       //change font for every book
       currFont = randomFont(currFont);
       prevBook = currBook;
+      addNewline();
     }
 
     for (let c of currText) {
       addSpan(c, currFont);
     }
 
-    addSpan(" ", currFont)
+    //addSpan(" ", currFont)
+    addNewline();
   }
 }
 
@@ -166,7 +178,7 @@ fetch("https://raw.githubusercontent.com/kijun/worm/main/highlights.csv")
     parsed = parse(text);
     //console.log(parsed);
     render();
-    for (let i = 0; i < 2; i++) {
+    for (let i = 0; i < 1; i++) {
       moveSnake2();
     }
    })
