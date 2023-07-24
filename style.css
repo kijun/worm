@@ -1,6 +1,6 @@
 body {
   background-color: white;
-  color: #222222;
+  color: #030112;
   font-family: "system-ui";
   white-space: wrap;
   /*text-transform: uppercase;*/
@@ -8,7 +8,7 @@ body {
 }
 
 .hide {
-  background-color: #222222;
+  background-color: #030112;
 }
 
 #game-board {
